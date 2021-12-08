@@ -6,7 +6,7 @@
 /*   By: moulmado <moulmado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:07:32 by moulmado          #+#    #+#             */
-/*   Updated: 2021/12/08 15:58:57 by moulmado         ###   ########.fr       */
+/*   Updated: 2021/12/08 17:28:03 by moulmado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*second_part(char *keep)
 	int		i;
 	int		j;
 
-	if (!keep)
+	if (!*keep)
 		return (NULL);
 	i = 0;
 	while (keep[i] && keep[i] != '\n')
@@ -28,9 +28,10 @@ char	*second_part(char *keep)
 		return (NULL);
 	i++;
 	j = 0;
-	
-	free(keep);
-	return (new_keep);
+	while (keep[i])
+		new_keep[j++] = keep[i++];
+	new_keep[j] = '\0';
+	return (free(keep), new_keep);
 }
 
 char	*firs_part(char *keep)
@@ -39,7 +40,7 @@ char	*firs_part(char *keep)
 	int		i;
 
 	i = 0;
-	if (!keep[0])
+	if (!*keep)
 		return (NULL);
 	while (keep[i] && keep[i] != '\n')
 		i++;
@@ -67,7 +68,7 @@ char	*add_buffer(int fd, char *keep)
 	if (!tmp)
 		return (NULL);
 	c = 1;
-	while (!ft_strchr(keep, '\n') && c)
+	while (ft_strchr(keep, '\n') && c)
 	{
 		c = read(fd, tmp, BUFFER_SIZE);
 		if (c == -1)
@@ -85,7 +86,8 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	keep = add_buffer(fd, keep);
+	if (ft_strchr(keep, '\n'))
+		keep = add_buffer(fd, keep);
 	if (!keep)
 		return (NULL);
 	next_line = firs_part(keep);
@@ -93,8 +95,8 @@ char	*get_next_line(int fd)
 	return (next_line);
 }
 
-#include <stdio.h>
 #include <fcntl.h>
+#include <stdio.h>
 int	main(void)
 {
 	int	d = open("41_no_nl", O_RDONLY);
