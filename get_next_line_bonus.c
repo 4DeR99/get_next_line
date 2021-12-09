@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moulmado <moulmado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/07 15:07:32 by moulmado          #+#    #+#             */
-/*   Updated: 2021/12/09 13:00:31 by moulmado         ###   ########.fr       */
+/*   Created: 2021/12/09 14:47:00 by moulmado          #+#    #+#             */
+/*   Updated: 2021/12/09 15:04:42 by moulmado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <stdio.h>
+#include "get_next_line_bonus.h"
 
 char	*second_part(char *keep)
 {
@@ -24,7 +23,7 @@ char	*second_part(char *keep)
 		i++;
 	if (!keep[i])
 		return (free(keep), NULL);
-	new_keep = (char *)malloc(ft_strlen(keep) - i);
+	new_keep = (char *)malloc(ft_strlen_bonus(keep) - i);
 	if (!new_keep)
 		return (NULL);
 	i++;
@@ -69,29 +68,29 @@ char	*add_buffer(int fd, char *keep)
 	if (!tmp)
 		return (NULL);
 	c = 1;
-	while (ft_strchr(keep, '\n') && c)
+	while (ft_strchr_bonus(keep, '\n') && c)
 	{
 		c = read(fd, tmp, BUFFER_SIZE);
 		if (c == -1)
 			return (free(tmp), NULL);
 		tmp[c] = '\0';
-		keep = ft_strjoin(keep, tmp);
+		keep = ft_strjoin_bonus(keep, tmp);
 	}
 	return (free(tmp), keep);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*keep;
+	static char	*keep[65535];
 	char		*next_line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (ft_strchr(keep, '\n'))
-		keep = add_buffer(fd, keep);
-	if (!keep)
+	if (ft_strchr_bonus(keep[fd], '\n'))
+		keep[fd] = add_buffer(fd, keep[fd]);
+	if (!keep[fd])
 		return (NULL);
-	next_line = firs_part(keep);
-	keep = second_part(keep);
+	next_line = firs_part(keep[fd]);
+	keep[fd] = second_part(keep[fd]);
 	return (next_line);
 }

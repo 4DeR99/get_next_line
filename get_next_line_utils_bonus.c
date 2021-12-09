@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moulmado <moulmado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/07 15:07:26 by moulmado          #+#    #+#             */
-/*   Updated: 2021/12/09 14:59:13 by moulmado         ###   ########.fr       */
+/*   Created: 2021/12/09 14:45:41 by moulmado          #+#    #+#             */
+/*   Updated: 2021/12/09 15:04:46 by moulmado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-char	*ft_strjoin(char *s0, char *s1)
+char	*ft_strjoin_bonus(char *s0, char *s1)
 {
 	int		c0;
 	int		c1;
@@ -21,9 +21,9 @@ char	*ft_strjoin(char *s0, char *s1)
 	char	*re;
 
 	if (!s0)
-		s0 = ft_strdup("");
-	s0_len = ft_strlen(s0);
-	s1_len = ft_strlen(s1);
+		s0 = ft_strdup_bonus("");
+	s0_len = ft_strlen_bonus(s0);
+	s1_len = ft_strlen_bonus(s1);
 	re = (char *)malloc(s0_len + s1_len + 1);
 	if (!re)
 		return (0);
@@ -38,7 +38,7 @@ char	*ft_strjoin(char *s0, char *s1)
 	return (free(s0), re);
 }
 
-int	ft_strlen(char *c)
+int	ft_strlen_bonus(char *c)
 {
 	int	l;
 
@@ -50,7 +50,7 @@ int	ft_strlen(char *c)
 	return (l);
 }
 
-int	ft_strchr(char *str, int c)
+int	ft_strchr_bonus(char *str, int c)
 {
 	int		index;
 	char	c1;
@@ -68,13 +68,13 @@ int	ft_strchr(char *str, int c)
 	return (1);
 }
 
-char	*ft_strdup(char *s)
+char	*ft_strdup_bonus(char *s)
 {
 	char	*re;
 	int		len;
 	int		i;
 
-	len = ft_strlen(s);
+	len = ft_strlen_bonus(s);
 	re = (char *)malloc(len + 1);
 	if (!re)
 		return (0);
