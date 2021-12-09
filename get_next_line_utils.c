@@ -6,40 +6,50 @@
 /*   By: moulmado <moulmado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:07:26 by moulmado          #+#    #+#             */
-/*   Updated: 2021/12/08 17:29:55 by moulmado         ###   ########.fr       */
+/*   Updated: 2021/12/09 12:08:47 by moulmado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+void	ft_free(char *str)
+{
+	free(str);
+	str = 0;
+}
+
 char	*ft_strjoin(char *s0, char *s1)
 {
 	int		c0;
 	int		c1;
-	int		len;
+	int		s0_len;
+	int		s1_len;
 	char	*re;
 
 	if (!s0)
-		return (ft_strdup(""));
-	len = ft_strlen(s0) + ft_strlen(s1);
-	re = (char *)malloc(len + 1);
+		s0 = ft_strdup("");
+	s0_len = ft_strlen(s0);
+	s1_len = ft_strlen(s1);
+	re = (char *)malloc(s0_len + s1_len + 1);
 	if (!re)
 		return (0);
-	c0 = 0;
+	c0 = -1;
 	c1 = 0;
-	while (s0[c1])
-		re[c0++] = s0[c1++];
+	while (++c0 < s0_len)
+		re[c0] = s0[c0];
 	c1 = 0;
-	while (s1[c1])
+	while (c1 < s1_len)
 		re[c0++] = s1[c1++];
 	re[c0] = '\0';
-	return (free(s0), re);
+	return (ft_free(s0), re);
 }
 
-int	ft_strlen(const char *c)
+int	ft_strlen(char *c)
 {
 	int	l;
 
+	if (!c)
+		return (0);
 	l = 0;
 	while (c[l])
 		l++;
@@ -64,8 +74,7 @@ int	ft_strchr(char *str, int c)
 	return (1);
 }
 
-
-char	*ft_strdup(const char *s)
+char	*ft_strdup(char *s)
 {
 	char	*re;
 	int		len;

@@ -6,11 +6,12 @@
 /*   By: moulmado <moulmado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 15:07:32 by moulmado          #+#    #+#             */
-/*   Updated: 2021/12/08 17:28:03 by moulmado         ###   ########.fr       */
+/*   Updated: 2021/12/09 12:19:15 by moulmado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*second_part(char *keep)
 {
@@ -18,11 +19,15 @@ char	*second_part(char *keep)
 	int		i;
 	int		j;
 
-	if (!*keep)
-		return (NULL);
 	i = 0;
 	while (keep[i] && keep[i] != '\n')
 		i++;
+	if (!keep[i])
+	{
+		// printf("\n%p\n",keep);
+		free(keep);
+		return (NULL);
+	}
 	new_keep = (char *)malloc(ft_strlen(keep) - i);
 	if (!new_keep)
 		return (NULL);
@@ -31,7 +36,8 @@ char	*second_part(char *keep)
 	while (keep[i])
 		new_keep[j++] = keep[i++];
 	new_keep[j] = '\0';
-	return (free(keep), new_keep);
+	free(keep);
+	return (new_keep);
 }
 
 char	*firs_part(char *keep)
@@ -72,11 +78,15 @@ char	*add_buffer(int fd, char *keep)
 	{
 		c = read(fd, tmp, BUFFER_SIZE);
 		if (c == -1)
-			return (free(tmp), NULL);
+		{
+			free(tmp);
+			return (NULL);
+		}
 		tmp[c] = '\0';
 		keep = ft_strjoin(keep, tmp);
 	}
-	return (free(tmp), keep);
+	free(tmp);
+	return (keep);
 }
 
 char	*get_next_line(int fd)
@@ -95,10 +105,11 @@ char	*get_next_line(int fd)
 	return (next_line);
 }
 
-#include <fcntl.h>
-#include <stdio.h>
-int	main(void)
-{
-	int	d = open("41_no_nl", O_RDONLY);
-	printf("%s", get_next_line(d));
-}
+// #include <fcntl.h>
+// int	main(void)
+// {
+// 	int	d = open("alternate_line_nl_no_nl", O_RDONLY);
+// 	char *s;
+// 	while ((s =  get_next_line(d)))
+// 		printf("%s",s);
+// }
